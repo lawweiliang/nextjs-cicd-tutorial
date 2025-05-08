@@ -29,7 +29,7 @@ export default function Home() {
     try {
       const response = await fetch("/api/todos");
       if (!response.ok) {
-        throw new Error("Failed to fetch todos");
+        throw new Error("Failed to fetch todos, test test");
       }
       const data = await response.json();
       setTodos(data);
