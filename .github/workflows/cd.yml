@@ -20,7 +20,7 @@ jobs:
       - name: Push Docker Image
         run: docker push weilianglaw/nextjs-todo-app:latest
 
-      - name: Deploy to AWS EC2
+      - name: Deploy to AWS EC
         run: |
           ssh -i "${{ secrets.AWS_EC2_KEY }}" admin@54.82.155.219 << 'EOF'
           docker pull weilianglaw/nextjs-todo-app:latest
