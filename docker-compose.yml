@@ -4,7 +4,7 @@ services:
   app:
     image: weilianglaw/nextjs-todo-app:latest
     ports:
-      - "5000:3000"
+      - "80:3000"
     volumes:
       - sqlite-data:/app/prisma
     restart: unless-stopped
