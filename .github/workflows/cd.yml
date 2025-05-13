@@ -49,7 +49,7 @@ jobs:
             fi
           EOF
 
-      - name: Upload Docker Compose File
+      - name: Upload Docker Compose Fil
         run: |
           scp -o StrictHostKeyChecking=no docker-compose.yml admin@54.82.155.219:/home/admin/docker_compose/
 
