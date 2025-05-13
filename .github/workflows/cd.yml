@@ -49,13 +49,17 @@ jobs:
             fi
           EOF
 
-      - name: Deploy to AWS EC2
+      - name: Upload Docker Compose File
+        run: |
+          scp -o StrictHostKeyChecking=no docker-compose.yml admin@54.82.155.219:/home/admin/docker_compose
+
+      - name: Deploy with Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no admin@54.82.155.219 << 'EOF'
-            # Pull and run the container
-            sudo docker pull weilianglaw/nextjs-todo-app:latest
-            sudo docker stop app || true
-            sudo docker rm app || true
-            sudo docker run -d --name app -p 80:80 weilianglaw/nextjs-todo-app:latest
-            echo "Deployment completed!"
+            # Navigate to the directory containing docker-compose.yml
+            cd /home/admin/docker_compose
+            # Pull the latest images and deploy using Docker Compose
+            sudo docker-compose pull
+            sudo docker-compose up -d
+            echo "Deployment with Docker Compose completed!"
           EOF

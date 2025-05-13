@@ -2,17 +2,22 @@ version: "3"
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: weilianglaw/nextjs-todo-app:latest
     ports:
-      - "3000:3000"
+      - "5000:3000"
     volumes:
       - sqlite-data:/app/prisma
     restart: unless-stopped
     environment:
       - DATABASE_URL=file:/app/prisma/dev.db
       - NODE_ENV=production
+    command: >
+      sh -c "
+        echo 'Running database migrations...' &&
+        npx prisma migrate deploy &&
+        echo 'Migrations completed successfully!' &&
+        npm start
+      "
 
 volumes:
   sqlite-data:
