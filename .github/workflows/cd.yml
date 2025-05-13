@@ -49,9 +49,9 @@ jobs:
             fi
           EOF
 
-    - name: Create docker compose directory on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no admin@54.82.155.219 "mkdir -p /home/admin/docker_compose"
+      - name: Create docker compose directory on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no admin@54.82.155.219 "mkdir -p /home/admin/docker_compose"
 
       - name: Upload Docker Compose File
         run: |
