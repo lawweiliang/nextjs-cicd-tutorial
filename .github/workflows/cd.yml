@@ -51,7 +51,7 @@ jobs:
 
       - name: Upload Docker Compose File
         run: |
-          scp -o StrictHostKeyChecking=no docker-compose.yml admin@54.82.155.219:/home/admin/docker_compose
+          scp -o StrictHostKeyChecking=no docker-compose.yml admin@54.82.155.219:/home/admin/docker_compose/
 
       - name: Deploy with Docker Compose
         run: |
