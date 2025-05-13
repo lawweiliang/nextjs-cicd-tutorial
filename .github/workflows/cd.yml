@@ -30,11 +30,32 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 54.82.155.219 >> ~/.ssh/known_hosts
 
+      - name: Install Docker on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no admin@54.82.155.219 << 'EOF'
+            # Check if Docker is installed
+            if ! command -v docker &> /dev/null; then
+              echo "Docker not found, installing..."
+              sudo apt-get update
+              sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+              curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+              sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+              sudo apt-get update
+              sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+              sudo usermod -aG docker $USER
+              echo "Docker installation completed!"
+            else
+              echo "Docker is already installed."
+            fi
+          EOF
+
       - name: Deploy to AWS EC2
         run: |
           ssh -o StrictHostKeyChecking=no admin@54.82.155.219 << 'EOF'
-            docker pull weilianglaw/nextjs-todo-app:latest
-            docker stop app || true
-            docker rm app || true
-            docker run -d --name app -p 80:80 weilianglaw/nextjs-todo-app:latest
+            # Pull and run the container
+            sudo docker pull weilianglaw/nextjs-todo-app:latest
+            sudo docker stop app || true
+            sudo docker rm app || true
+            sudo docker run -d --name app -p 80:80 weilianglaw/nextjs-todo-app:latest
+            echo "Deployment completed!"
           EOF
