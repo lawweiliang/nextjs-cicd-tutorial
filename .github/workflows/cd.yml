@@ -49,15 +49,15 @@ jobs:
             fi
           EOF
 
-      - name: Upload Docker Compose Fil
+      - name: Upload Docker Compose File
         run: |
-          scp -o StrictHostKeyChecking=no docker-compose.yml admin@54.82.155.219:/home/admin/docker_compose/
+          scp -o StrictHostKeyChecking=no docker-compose.yml admin@54.82.155.219:/home/admin/docker_compose/docker-compose.yml
 
       - name: Deploy with Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no admin@54.82.155.219 << 'EOF'
             # Navigate to the directory containing docker-compose.yml
-            cd /home/admin/docker_compose
+            cd /home/admin/docker_compose 
             # Pull the latest images and deploy using Docker Compose
             sudo docker-compose pull
             sudo docker-compose up -d
