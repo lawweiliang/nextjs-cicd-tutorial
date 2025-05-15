@@ -9,7 +9,7 @@ services:
       - sqlite-data:/app/prisma
     restart: unless-stopped
     environment:
-      - DATABASE_URL=file:/app/prisma/dev.db
+      - DATABASE_URL=${DATABASE_URL}
       - NODE_ENV=production
     command: >
       sh -c "

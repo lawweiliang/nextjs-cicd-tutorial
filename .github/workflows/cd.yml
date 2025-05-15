@@ -60,6 +60,8 @@ jobs:
       - name: Deploy with Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no admin@54.82.155.219 << 'EOF'
+            # expport all the environment variable
+            export DATABASE_URL=${{ secrets.DATABASE_URL }}
             # Navigate to the directory containing docker-compose.yml
             cd /home/admin/docker_compose 
             # Pull the latest images and deploy using Docker Compose
