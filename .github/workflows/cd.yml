@@ -57,11 +57,13 @@ jobs:
         run: |
           scp -o StrictHostKeyChecking=no docker-compose.yml admin@54.82.155.219:/home/admin/docker_compose/docker-compose.yml
 
+      - name: Create .env on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no admin@54.82.155.219 "echo 'DATABASE_URL=${{ secrets.DATABASE_URL }}' > /home/admin/docker_compose/.env"
+
       - name: Deploy with Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no admin@54.82.155.219 << 'EOF'
-            # expport all the environment variable
-            export DATABASE_URL="${{ secrets.DATABASE_URL }}"
             # Navigate to the directory containing docker-compose.yml
             cd /home/admin/docker_compose 
             # Pull the latest images and deploy using Docker Compose
