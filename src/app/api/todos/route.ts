@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { todoCounter } from "@/app/api/metrics/route";
+import { todoCounter } from "@/lib/prometheus";
 
 // GET: Fetch all todos
 export async function GET() {
