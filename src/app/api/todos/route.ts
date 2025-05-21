@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { todoCounter } from "@/app/api/metrics/route";
 
 // GET: Fetch all todos
 export async function GET() {
@@ -21,7 +22,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validate request body
     if (!body.title || typeof body.title !== "string") {
       return NextResponse.json(
@@ -29,14 +30,17 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     const newTodo = await prisma.todo.create({
       data: {
         title: body.title,
         completed: body.completed ?? false,
       },
     });
-    
+
+    // Increment the custom counter
+    todoCounter.inc();
+
     return NextResponse.json(newTodo, { status: 201 });
   } catch (error) {
     console.error("Failed to create todo:", error);

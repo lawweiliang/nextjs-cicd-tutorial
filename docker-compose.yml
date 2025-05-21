@@ -4,7 +4,7 @@ services:
   app:
     image: weilianglaw/nextjs-todo-app:latest
     ports:
-      - "80:3000"
+      - "5000:3000"
     volumes:
       - sqlite-data:/app/prisma
     restart: unless-stopped
@@ -18,6 +18,24 @@ services:
         echo 'Migrations completed successfully!' &&
         npm start
       "
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    # If your Next.js app (service 'app') is also running in Docker on the same network,
+    # Prometheus can target it directly. Otherwise, 'host.docker.internal' is used in prometheus.yml.
+    # depends_on:
+    #   - app # Uncomment if 'app' service should start before prometheus and they are on the same network
 
 volumes:
   sqlite-data:
