@@ -6,5 +6,5 @@ scrape_configs:
     static_configs:
       # If Next.js runs on host: - targets: ['host.docker.internal:3000']
       # If Next.js runs in Docker on same network: - targets: ['frontend-app:3000'] # Adjust service name if needed
-      - targets: ["host.docker.internal:3000"] # Adjusted for running Next.js on host and Prometheus in Docker
+      - targets: ["app:3000"] # Adjusted for running Next.js on host and Prometheus in Docker
     metrics_path: /api/metrics # The endpoint you created
